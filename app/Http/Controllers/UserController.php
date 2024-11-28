@@ -28,6 +28,7 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
+        User::find(Auth::id())->update(['status' => "offline"]);
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

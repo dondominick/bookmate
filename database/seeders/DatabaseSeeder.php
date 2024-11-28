@@ -14,12 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            "role" => "admin",
-            "utype" => "ADM",
-        ]);
+        // User::factory(3)->create([
+        //     "role" => "admin",
+        //     "utype" => "ADM",
+        // ]);
 
-        User::factory(10)->create();
+        //  User::factory(10)->create();
 
         Book::factory(34)->create();
     }

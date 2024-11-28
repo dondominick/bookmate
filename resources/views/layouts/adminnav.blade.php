@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Dashboard')</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.css"
+        integrity="sha512-9Tu/Gu0+bXW+oGrTGJOeNz2RG4MaF52FznXCciXFrXehFTLF6phJnJFNVOU2mmj9FWIXk9ap0H1ocygu1ZTRqg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar.css') }}">
@@ -14,7 +17,13 @@
         integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     @yield('head')
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
+    <style>
+        i {
+            font-size: 15px;
+        }
+    </style>
 </head>
 
 <body>
@@ -32,8 +41,7 @@
             <ul class="sidebar-nav ">
                 <li class="sidebar-item">
                     <a href="{{ route('userlogs') }}" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Users Log</span>
+                        <box-icon name='book-reader' type='solid' color='#ffffff'></box-icon> <span>Users Log</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -44,14 +52,12 @@
                 </li>
                 <li class="sidebar-item">
                     <a href="{{ route('admin_bms') }}" class="sidebar-link">
-                        <i class="lni lni-book"></i>
-                        <span>Book Management</span>
+                        <box-icon name='book-open' color='#ffffff'></box-icon> <span>Book Management</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="{{ route('adminSlips') }}" class="sidebar-link">
-                        <i class="lni lni-book"></i>
-                        <span>Borrower's Slips</span>
+                        <box-icon name='book-bookmark' color='#ffffff'></box-icon> <span>Borrower's Slips</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -60,11 +66,17 @@
                         <span>Circulated Books</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item ">
                     <a href="{{ route('admingenre') }}" class="sidebar-link">
                         <i class="lni lni-search-alt"></i>
                         <span>Browse Books</span>
                     </a>
+                </li>
+                <li class="sidebar-item">
+                    <button href="" class="btn text-white p-4 sidebar-link"
+                        onclick="document.getElementById('logoutForm').submit()">
+                        <i class="lni lni-exit"></i>
+                    </button>
                 </li>
             </ul>
             <div class="sidebar-footer">
@@ -79,7 +91,7 @@
             @csrf
         </form> <!-- Main Content -->
         <div class="main p-3">
-            <div class="col-md-10 content w-100 border">
+            <div class="col-md-10 content w-100">
                 <!-- Top Bar -->
                 <div class="topbar">
                     <div class="time">
@@ -104,13 +116,15 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
     <script>
+        import 'boxicons'
+
         const hamBurger = document.querySelector(".toggle-btn");
 
         hamBurger.addEventListener("hover", function() {
             document.querySelector("#sidebar").classList.toggle("expand");
         });
     </script>
-
+    @yield('scripts')
 </body>
 
 </html>

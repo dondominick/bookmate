@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BorrowedBooksController;
 use App\Http\Controllers\BorrowerSlipController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\DashboardController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserdashboardController;
+use App\Http\Middleware\AdminLayer;
+use App\Models\BorrowedBook;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,44 +36,6 @@ require __DIR__ . '/auth.php';
 
 // TESTING THIS SHIT
 
-// Admin Dashboard -> ROUTES RELATED TO ADMIN DASHBOARD OR ADMIN 
-Route::get('/admin/dashboard', [DashboardController::class, 'displayDashboard'])->name('admindashboard');
-Route::view('/admin/borrowed', 'admin.adminborrowed')->name('adminborrowed');
-Route::get('/admin/bookmanagement', [BookController::class, 'index'])->name('admin_bms');
-Route::get('/admin/genre', [DashboardController::class, 'displayGenre'])->name('admingenre');
-Route::view('/admin/overdue', 'admin.adminoverdue')->name('adminoverdue');
-Route::get('/userlogs', [DashboardController::class, 'index'])->name('userlogs');
-Route::get('/admin/slips', [DashboardController::class, 'displaySlips'])->name('adminSlips');
-
-// Retrieve Chart Data 
-Route::get('/chart-data', [ChartController::class, 'getChartData'])->name('chartData');
-// Book Management Routes
-Route::delete('/admin/bookmanagement', [BookController::class, 'destroy']);
-Route::patch('/admin/bookmanagement', [BookController::class, 'update']);
-
-// POST ROUTES
-Route::post('/admin/bookmanagement', [BookController::class, 'create']);
-
-// Admin-related routes
-Route::get('/admin/adminoverdue', function () {
-    return view('admin.adminoverdue');
-});
-Route::get('/admin/admingenre', function () {
-    return view('admin.admingenre');
-});
-Route::get('/admin/admindashboard', function () {
-    return view('admin.admindashboard');
-});
-Route::get('/admin/adminborrowed', function () {
-    return view('admin.adminborrowed');
-})->name('adminborrow');
-Route::get('/admin/adminadduser', function () {
-    return view('admin.adminadduser');
-});
-
-
-
-
 // Auth routes
 Route::post('/register', [UserController::class, 'create']);
 Route::get('/login', function () {
@@ -81,6 +46,42 @@ Route::get('/register', function () {
 })->name('register');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
+
+// ADMIN 
+Route::middleware([AdminLayer::class])->group(function () {
+
+    // Admin Dashboard -> ROUTES RELATED TO ADMIN DASHBOARD OR ADMIN 
+    Route::get('/admin/dashboard', [DashboardController::class, 'displayDashboard'])->name('admindashboard');
+    Route::get('/admin/bookmanagement', [BookController::class, 'index'])->name('admin_bms');
+    Route::get('/admin/genre', [DashboardController::class, 'displayGenre'])->name('admingenre');
+    Route::view('/admin/overdue', 'admin.adminoverdue')->name('adminoverdue');
+    Route::get('/userlogs', [DashboardController::class, 'index'])->name('userlogs');
+    Route::get('/admin/slips', [DashboardController::class, 'displaySlips'])->name('adminSlips');
+
+    // Retrieve Chart Data 
+    Route::get('/chart-data', [ChartController::class, 'getChartData'])->name('chartData');
+    Route::get('/user-chart-data', [ChartController::class, 'getUserChartData'])->name('userChartData');
+    // Book Management Routes
+    Route::delete('/admin/bookmanagement', [BookController::class, 'destroy']);
+    Route::patch('/admin/bookmanagement', [BookController::class, 'update']);
+
+    // POST ROUTES
+    Route::post('/admin/bookmanagement', [BookController::class, 'create']);
+
+    //Search
+    Route::get('/admin/genre{search?}', [DashboardController::class, 'displaySearch'])->name('search');
+
+    // For Borrower's Slip
+    Route::post('/admin/slips', [BorrowerSlipController::class, 'update']);
+
+    // For Admin Borrowed Books 
+    Route::get('/admin/overdue', [BorrowedBooksController::class, 'displayOverdues'])->name('admin-overdue');
+    Route::get('/admin/borrowed', [BorrowedBooksController::class, 'displayBorrowedBooks'])->name('adminborrowed');
+    Route::patch('/admin/borrowed', [BorrowedBooksController::class, 'updateBook']);
+});
+
+
+// USER / GENERAL
 Route::middleware(['auth'])->group(function () {
 
     // USER RELATED ROUTES 
@@ -90,8 +91,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/user/dashboard', [UserdashboardController::class, 'index'])->name('userdashboard');
     // Borrowed Book
-    Route::get('user/borrowedbook', [UserdashboardController::class, 'borrowedbooks'])->name('borrow-books');
-
+    Route::get('/user/borrowedbook', [UserdashboardController::class, 'borrowedbooks'])->name('borrow-books');
+    Route::post('/user/borrowedbook', [BorrowedBooksController::class, 'returnBook']);
 
     // Returned Book
     Route::get('/user/returnbook', [UserdashboardController::class, 'returnbooks'])->name('return-books');
@@ -107,10 +108,7 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/catalogs', [BorrowerSlipController::class, 'create']);
 
 
-
-
 // FAQ & Library Policy
-Route::get('/faq', [FcController::class, 'index'])->name('faq.index');
 Route::get('/library-policies', [LibraryPolicyController::class, 'index'])->name('library-policies.index');
 
 // Subscription routes

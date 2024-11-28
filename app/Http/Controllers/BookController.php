@@ -81,7 +81,7 @@ class BookController extends Controller
 
     public function browse()
     {
-        $books = Book::all();
+        $books = Book::where('availability', '>', 0)->get();
         return view('user.userbook', ['books' => $books]);
     }
 }

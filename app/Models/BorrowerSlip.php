@@ -10,10 +10,9 @@ class BorrowerSlip extends Model
     protected $fillable = [
         "book_id",
         "user_id",
-        "fines",
         "borrow_date",
         "return_date",
-
-
     ];
+
+    protected $table = "borrower_slips";
 }

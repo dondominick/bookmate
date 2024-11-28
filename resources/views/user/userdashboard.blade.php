@@ -38,11 +38,13 @@
         <div class="legend">
             <div class="legend-item">
                 <div class="legend-color color-borrowed"></div>
-                <span>Total Borrowed Books</span>
+                <span>Total Borrowed Books: </span>
+                <span>{{ $borrowed }}</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color color-returned"></div>
-                <span>Total Returned Books</span>
+                <span>Total Returned Books: </span>
+                <span>{{ $returned }}</span>
             </div>
         </div>
     </div>
@@ -51,20 +53,27 @@
 
 @section('scripts')
     <script>
+        // fetch("{{ route('userChartData') }}")
+        //     .then(response => response.json())
+        //     .then(data => {
+        //             console.log(data);
+        //         }
+
+        //     ).error(error => console.error('Error fetching'));
+    </script>
+    <script>
         const ctx = document.getElementById('myPieChart').getContext('2d');
         const data = {
-            labels: ['Red', 'Blue', 'Yellow'],
+            labels: ['Borrowed', 'Returned'],
             datasets: [{
-                data: [300, 50, 100],
+                data: [{{ $borrowed }}, {{ $returned }}],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.6)',
                     'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)'
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
                     'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)'
                 ],
                 borderWidth: 1
             }]

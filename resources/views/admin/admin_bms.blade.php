@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <main class="col-md-10 main-content">
+    <main class="main-content">
         <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h2>Book Management System</h2>
             <div>

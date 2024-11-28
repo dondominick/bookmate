@@ -18,7 +18,6 @@ class DashboardController extends Controller
 
     public function displayGenre()
     {
-
         $books = Book::all();
 
         return view('admin.admingenre', ['books' => $books]);
@@ -33,9 +32,12 @@ class DashboardController extends Controller
 
     public function displaySlips()
     {
-        $slips = BorrowerSlip::join('users', 'borrower_slips.user_id', '=', 'users.id')
+
+        $slips = BorrowerSlip::select('*', 'borrower_slips.id')
+            ->leftjoin('users', 'borrower_slips.user_id', '=', 'users.id')
             ->join('books', 'borrower_slips.book_id', '=', 'books.id')
             ->get();
+
         return view('admin.borrower_slip', ['slips' => $slips]);
     }
 
@@ -48,5 +50,18 @@ class DashboardController extends Controller
         $borrowed = BorrowedBook::where('availability', 'borrowed')->count();
         $returned = BorrowedBook::where('availability', 'returned')->count();
         return view('admin.admindashboard', ['books' => $books, 'users' => $user, "admin" => $admin]);
+    }
+
+    public function displaySearch(Request $request)
+    {
+        if ($request['genre'] != null) {
+            $books = Book::where('genre', $request['genre'])->get();
+            return view('admin.admingenre', ['books' => $books]);
+        } elseif ($request['search'] != null) {
+            $books = Book::where('book_title', 'like', $request['search'] . '%')->get();
+            return view('admin.admingenre', ['books' => $books]);
+        }
+        dd('condition1');
+        return back()->withErrors(['error' => "Something went wrong"]);
     }
 }

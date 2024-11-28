@@ -31,6 +31,7 @@
                         <th>Email</th>
                         <th>Contact</th>
                         <th>Username</th>
+                        <td>Status</td>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -44,10 +45,19 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <button class="btn"></button>
-                                <button class="btn"></button>
+                                @if ($user->status == 'offline')
+                                    <span class="bg-danger rounded-5 px-3"></span><br>Offlne
+                                @endif
 
-                                <button class="btn"></button>
+                                @if ($user->status == 'online')
+                                    <span class="bg-success rounded-5 px-3"></span><br>Online
+                                @endif
+                            </td>
+
+                            <td class="d-flex justify-content-center flex-column gap-3">
+                                <button class="btn bg-primary">Update</button>
+                                <button class="btn bg-danger">Delete</button>
+
 
                             </td>
                         </tr>

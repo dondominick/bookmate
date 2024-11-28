@@ -102,33 +102,28 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Book Title</th>
                     <th>Author</th>
-                    <th>Language</th>
                     <th>Genre</th>
-                    <th>Availability</th>
-                    <th>Add to Cart</th>
+                    <th>Borrowed Date</th>
+                    <th>Due Date</th>
+                    <th>Returned Date</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>B001</td>
-                    <td>To Kill A Mockingbird</td>
-                    <td>Harper Lee</td>
-                    <td>English</td>
-                    <td>Fiction</td>
-                    <td>Available</td>
-                    <td><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td>B002</td>
-                    <td>1984</td>
-                    <td>George Orwell</td>
-                    <td>English</td>
-                    <td>Dystopian</td>
-                    <td>Borrowed</td>
-                    <td><input type="checkbox"></td>
-                </tr>
+
+
+                @foreach ($books as $book)
+                    <tr>
+                        <td>{{ $book->id }}</td>
+                        <td>{{ $book->book_title }}</td>
+                        <td>{{ $book->author }}</td>
+                        <td>{{ $book->genre }}</td>
+                        <td>{{ $book->borrowed_at }}</td>
+                        <td>{{ $book->due_date }}</td>
+                        <td>{{ $book->returned_at }}</td>
+                    </tr>
+                @endforeach
                 <!-- Add additional rows as needed -->
             </tbody>
         </table>

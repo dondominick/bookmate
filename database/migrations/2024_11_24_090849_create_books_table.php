@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('availability');
             $table->date('published_date');
+            $table->string('img_url')->nullable();
             $table->timestamps();
         });
     }

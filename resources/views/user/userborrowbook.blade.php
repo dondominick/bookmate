@@ -106,39 +106,57 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Author</th>
-                    <th>Language</th>
                     <th>Genre</th>
-                    <th>Availability</th>
-                    <th>Add to Cart</th>
+                    <th>Date Borrowed</th>
+                    <th>Due Date</th>
+                    <th>Fines</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>B001</td>
-                    <td>To Kill A Mockingbird</td>
-                    <td>Harper Lee</td>
-                    <td>English</td>
-                    <td>Fiction</td>
-                    <td>Available</td>
-                    <td><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td>B002</td>
-                    <td>1984</td>
-                    <td>George Orwell</td>
-                    <td>English</td>
-                    <td>Dystopian</td>
-                    <td>Borrowed</td>
-                    <td><input type="checkbox"></td>
-                </tr>
+
+                @foreach ($books as $book)
+                    <tr>
+                        <td>{{ $book->id }}</td>
+                        <td>{{ $book->book_title }}</td>
+                        <td>{{ $book->author }}</td>
+                        <td>{{ $book->genre }}</td>
+                        <td>{{ $book->borrowed_at }}</td>
+                        <td>{{ $book->due_date }}</td>
+                        <td>
+                            @if ($book->fines <= 0)
+                                P {{ 0 }}
+                            @endif
+                            {{ $book->fines }}
+                        </td>
+                        <td>
+
+                            <button class="btn bg-success text-white" onclick="returnBook({{ $book->id }})">
+                                Return
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
                 <!-- Add additional rows as needed -->
             </tbody>
         </table>
     </div>
-    </div>
-    </div>
-    </div>
+    {{-- Return Form --}}
+    <form action="{{ route('borrow-books') }}" method="post" hidden id="returnForm">
+        @csrf
+        <input type="text" hidden name="borrow_id" id="borrow_id">
+
+    </form>
 @endsection
 
 @section('scripts')
+    <script>
+        function returnBook(id) {
+            const form = document.getElementById('returnForm');
+            const input = document.getElementById('borrow_id');
+            input.value = id;
+            form.submit();
+
+        }
+    </script>
 @endsection

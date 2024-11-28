@@ -57,7 +57,7 @@
     @endif
 
     @error('borrow')
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger my-3" role="alert">
             {{ $message }}
         </div>
     @enderror

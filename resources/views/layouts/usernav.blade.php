@@ -42,7 +42,7 @@
                     <a href="#"><button class="btn btn-outline-light mt-4"
                             onclick="document.getElementById('logoutForm').submit()">Log out</button></a>
 
-                    <form action="{{ route('logout') }}" method="post" id="logoutForm">
+                    <form action="{{ route('logout') }}" method="post" id="logoutForm" hidden>
                         @csrf
                     </form>
                 </div>
@@ -62,6 +62,7 @@
                         <div>
                             <p class="mb-0">{{ auth()->user()->name }}</p>
                             <p class="text-muted">User</p>
+                            <p>{{ auth()->user()->status }}</p>
                         </div>
                     @endauth
                     @guest
@@ -82,6 +83,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
+
     <script src="{{ asset('asset/js/sidebar.js') }}"></script>
     <script src="{{ asset('asset/js/scripts.js') }}"></script>
     <script src="{{ asset('asset/js/jquery-3.7.1.min.js') }}"></script>

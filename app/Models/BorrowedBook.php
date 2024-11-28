@@ -16,6 +16,5 @@ class BorrowedBook extends Model
         "borrowed_at",
         "book_id",
         "user_id",
-
     ];
 }
